@@ -341,7 +341,7 @@ function App() {
         )}
       </div>
       <footer>
-        <p>Created with ❤️ using React • {new Date().getFullYear()}</p>
+        <p>Created using React by Michael Josh Rodriguez • {new Date().getFullYear()}</p>
         {isMobile && <p className="mobile-note">Optimized for mobile devices</p>}
       </footer>
     </div>
