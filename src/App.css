@@ -1,4 +1,3 @@
-/* Modern CSS Reset */
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -19,7 +18,6 @@
   --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   --border-radius: 8px;
   
-  /* Social Media Colors */
   --youtube-color: #FF0000;
   --x-color: #000000;
   --twitter-color: #1DA1F2;
@@ -621,18 +619,18 @@ footer {
     font-size: 1rem;
   }
   
-  /* Make sure result text is readable */
+ 
   .scan-text {
     font-size: 0.9rem;
     word-break: break-all;
   }
   
-  /* Fix QR reader on very small screens */
+
   #reader {
     min-height: 200px;
   }
   
-  /* Full-width buttons */
+ 
   .scan-btn, .download-btn, .open-link {
     width: 100%;
     display: flex;
@@ -640,9 +638,8 @@ footer {
   }
 }
 
-/* Fix for iOS Safari */
 @supports (-webkit-touch-callout: none) {
-  /* CSS specific to iOS devices */
+
   input, button {
     -webkit-appearance: none;
     border-radius: var(--border-radius);

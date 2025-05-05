@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
 import { Html5Qrcode } from 'html5-qrcode';
 import './App.css';
-// Import icons
 import { FaYoutube, FaTwitter, FaReddit, FaFacebook, FaInstagram, FaTiktok, FaLinkedin, FaLink } from 'react-icons/fa';
 import { FaX } from "react-icons/fa6";
 
@@ -16,29 +15,28 @@ function App() {
   const scannerRef = useRef(null);
   const readerElementRef = useRef(null);
 
-  // Color theme
+  
   const [darkMode, setDarkMode] = useState(() => {
     const savedMode = localStorage.getItem('darkMode');
     return savedMode ? JSON.parse(savedMode) : window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
 
-  // Mobile detection
+
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
     };
     
-    // Initial check
+   
     checkMobile();
     
-    // Add event listener
     window.addEventListener('resize', checkMobile);
     
-    // Clean up
+ 
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Save dark mode preference to localStorage
+
   useEffect(() => {
     localStorage.setItem('darkMode', JSON.stringify(darkMode));
     if (darkMode) {
@@ -49,7 +47,7 @@ function App() {
   }, [darkMode]);
 
   useEffect(() => {
-    // Clean up scanner on component unmount
+  
     return () => {
       if (scannerRef.current) {
         try {
@@ -67,7 +65,7 @@ function App() {
     setCameraError('');
     
     try {
-      // First check if the reader element exists
+     
       const readerElement = document.getElementById('reader');
       if (!readerElement) {
         console.error("Reader element not found in DOM");
@@ -75,32 +73,30 @@ function App() {
         return;
       }
 
-      // Create a new instance of Html5Qrcode each time
       const html5QrCode = new Html5Qrcode("reader");
-      
-      // Mobile-optimized configuration
+   
       const cameraConfig = {
-        fps: isMobile ? 60 : 60, // Lower FPS on mobile to save battery
+        fps: isMobile ? 60 : 60, 
         qrbox: isMobile 
           ? { width: Math.min(250, window.innerWidth - 50), height: Math.min(250, window.innerWidth - 50) }
           : { width: 250, height: 250 },
-        aspectRatio: isMobile ? 1.0 : undefined // Square aspect for mobile
+        aspectRatio: isMobile ? 1.0 : undefined 
       };
       
       await html5QrCode.start(
-        { facingMode: "environment" }, // Use back camera on mobile
+        { facingMode: "environment" },
         cameraConfig,
         (decodedText) => {
           console.log("QR Code detected:", decodedText);
           setScanResult(decodedText);
           
-          // On mobile, provide haptic feedback if available
+        
           if (isMobile && navigator.vibrate) {
             navigator.vibrate(200);
           }
         },
         (errorMessage) => {
-          // Only log errors, don't display to user unless critical
+         
           console.warn(errorMessage);
         }
       );
@@ -164,13 +160,13 @@ function App() {
     }
     setActiveTab(tab);
     
-    // Reset scan results when switching to scan tab
+  
     if (tab === 'scan') {
       setScanResult('');
     }
   };
 
-  // Handle quick URL generation
+  
   const handleQuickUrl = (url) => {
     setText(url);
   };
