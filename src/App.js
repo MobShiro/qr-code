@@ -80,7 +80,7 @@ function App() {
       
       // Mobile-optimized configuration
       const cameraConfig = {
-        fps: isMobile ? 5 : 10, // Lower FPS on mobile to save battery
+        fps: isMobile ? 60 : 60, // Lower FPS on mobile to save battery
         qrbox: isMobile 
           ? { width: Math.min(250, window.innerWidth - 50), height: Math.min(250, window.innerWidth - 50) }
           : { width: 250, height: 250 },
