@@ -12,6 +12,7 @@ function App() {
   const [scannerActive, setScannerActive] = useState(false);
   const [activeTab, setActiveTab] = useState('generate');
   const [cameraError, setCameraError] = useState('');
+  const [isMobile, setIsMobile] = useState(false);
   const scannerRef = useRef(null);
   const readerElementRef = useRef(null);
 
@@ -20,6 +21,22 @@ function App() {
     const savedMode = localStorage.getItem('darkMode');
     return savedMode ? JSON.parse(savedMode) : window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
+
+  // Mobile detection
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    // Initial check
+    checkMobile();
+    
+    // Add event listener
+    window.addEventListener('resize', checkMobile);
+    
+    // Clean up
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Save dark mode preference to localStorage
   useEffect(() => {
@@ -58,18 +75,29 @@ function App() {
         return;
       }
 
-      // Create a new instance of Html5Qrcode each time (more reliable)
+      // Create a new instance of Html5Qrcode each time
       const html5QrCode = new Html5Qrcode("reader");
       
+      // Mobile-optimized configuration
+      const cameraConfig = {
+        fps: isMobile ? 5 : 10, // Lower FPS on mobile to save battery
+        qrbox: isMobile 
+          ? { width: Math.min(250, window.innerWidth - 50), height: Math.min(250, window.innerWidth - 50) }
+          : { width: 250, height: 250 },
+        aspectRatio: isMobile ? 1.0 : undefined // Square aspect for mobile
+      };
+      
       await html5QrCode.start(
-        { facingMode: "environment" },
-        {
-          fps: 10,
-          qrbox: { width: 250, height: 250 }
-        },
+        { facingMode: "environment" }, // Use back camera on mobile
+        cameraConfig,
         (decodedText) => {
           console.log("QR Code detected:", decodedText);
           setScanResult(decodedText);
+          
+          // On mobile, provide haptic feedback if available
+          if (isMobile && navigator.vibrate) {
+            navigator.vibrate(200);
+          }
         },
         (errorMessage) => {
           // Only log errors, don't display to user unless critical
@@ -148,7 +176,7 @@ function App() {
   };
 
   return (
-    <div className={`app ${darkMode ? 'dark-mode' : ''}`}>
+    <div className={`app ${darkMode ? 'dark-mode' : ''} ${isMobile ? 'mobile' : ''}`}>
       <header className="app-header">
         <h1>QR Code Generator & Scanner</h1>
         <button 
@@ -257,7 +285,7 @@ function App() {
                   <QRCodeCanvas
                     id="qr-code"
                     value={text}
-                    size={256}
+                    size={isMobile ? Math.min(200, window.innerWidth - 80) : 256}
                     level="H"
                     includeMargin={true}
                     bgColor={darkMode ? "#2a2a2a" : "#ffffff"}
@@ -318,6 +346,7 @@ function App() {
       </div>
       <footer>
         <p>Created with ❤️ using React • {new Date().getFullYear()}</p>
+        {isMobile && <p className="mobile-note">Optimized for mobile devices</p>}
       </footer>
     </div>
   );

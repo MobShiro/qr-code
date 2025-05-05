@@ -510,3 +510,189 @@ footer {
     font-size: 1.4rem;
   }
 }
+
+/* Mobile Optimization Section - Add this at the end of your existing CSS file */
+
+/* Base Mobile Optimizations */
+@media (max-width: 768px) {
+  .app {
+    padding: 12px;
+  }
+  
+  .content {
+    padding: 15px;
+    margin: 0;
+  }
+  
+  .app-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .platform-buttons {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  
+  /* Fix QR container sizing */
+  .qr-container {
+    padding: 10px;
+    max-width: 100%;
+  }
+  
+  .qr-container canvas {
+    max-width: 100%;
+    height: auto !important;
+  }
+  
+  /* Better button sizing for touch */
+  button {
+    min-height: 44px; /* Apple's recommended minimum touch target size */
+    padding: 10px 15px;
+  }
+  
+  /* Improved scanner for mobile */
+  #reader {
+    width: 100% !important;
+    max-width: 100%;
+    min-height: 250px;
+  }
+  
+  /* Fix input on mobile */
+  input {
+    font-size: 16px; /* Prevents iOS zoom on focus */
+  }
+  
+  /* Adjust QR code size */
+  #qr-code {
+    max-width: 100%;
+    height: auto !important;
+  }
+  
+  /* Better help text display */
+  .help-text {
+    font-size: 0.85rem;
+    max-width: 100%;
+    overflow-wrap: break-word;
+  }
+  
+  /* Button layout for mobile */
+  .download-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Small Phone Optimizations */
+@media (max-width: 480px) {
+  .app-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+  
+  .app-header h1 {
+    font-size: 1.3rem;
+  }
+  
+  .tabs {
+    width: 100%;
+  }
+  
+  .tabs button {
+    flex: 1;
+    padding: 10px 5px;
+    font-size: 0.9rem;
+  }
+  
+  .platform-buttons {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .platform-btn {
+    padding: 12px 8px;
+    font-size: 0.8rem;
+  }
+  
+  h2 {
+    font-size: 1.3rem;
+  }
+  
+  h3 {
+    font-size: 1rem;
+  }
+  
+  /* Make sure result text is readable */
+  .scan-text {
+    font-size: 0.9rem;
+    word-break: break-all;
+  }
+  
+  /* Fix QR reader on very small screens */
+  #reader {
+    min-height: 200px;
+  }
+  
+  /* Full-width buttons */
+  .scan-btn, .download-btn, .open-link {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+/* Fix for iOS Safari */
+@supports (-webkit-touch-callout: none) {
+  /* CSS specific to iOS devices */
+  input, button {
+    -webkit-appearance: none;
+    border-radius: var(--border-radius);
+  }
+  
+  .qr-container {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Fix notch issues on iPhone X and newer */
+  @media screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3),
+         screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3),
+         screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3),
+         screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2),
+         screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) {
+    .app-header {
+      padding-top: env(safe-area-inset-top);
+    }
+    
+    .app {
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+  }
+}
+
+/* Fix camera UI for mobile */
+#reader__scan_region {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+#reader__scan_region img {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+/* Prevent overflow of scanner controls */
+#reader__dashboard {
+  padding: 5px !important;
+}
+
+#reader__dashboard_section_csr button {
+  padding: 5px !important;
+  font-size: 12px !important;
+}
+
+/* QR Code container fix for dark mode on mobile */
+@media (max-width: 768px) {
+  .dark-mode .qr-container {
+    background-color: #2a2a2a;
+    border: 1px solid #444;
+  }
+}
